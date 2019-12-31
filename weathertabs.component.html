@@ -1,0 +1,216 @@
+
+
+<!-- search/clear is pressed()-->
+<div class="container" *ngIf="(resClicked && !favon) || (searchclick && !favon)|| (cleardata && !favon)">
+        <div class="row" style="margin-top: 40px; margin-left:-300px;">
+                <div class="col-md-12" style="margin-left: 680px;">
+                    <button type="button" (click)="respressed();" class="btn btn-primary custom-button-width" style="margin-right: 30px; background-color:#6593AB;">Results</button>
+                    <button type="button" (click)="favpressed();"   class="btn btn-primary custom-button-width" style="background-color:white;"><span style="color:grey">Favourite</span></button>
+                </div>
+        </div>
+</div>
+
+
+<!-- fav is pressed() -->
+
+<div class="container" *ngIf="favon && !cleardata">
+        <div class="row" style="margin-top: 40px; margin-left:-300px;">
+                <div class="col-md-12" style="margin-left: 680px;">
+                    <button type="button" (click)="respressed();" class="btn btn-primary custom-button-width" style="margin-right: 30px;color:grey;background-color:white;">Results</button>
+                    <button type="button" (click)="favpressed();"  class="btn btn-primary custom-button-width" style="background-color:#6593AB;"><span style="color:white">Favourite</span></button>
+                </div>
+        </div>
+</div>
+
+
+<div *ngIf="favon">            
+            <table class="table" style="margin-left : 450px; margin-top:60px;width:800px;border-style: solid 1px white;">
+            <thead style="background-color: #6592AD; height:2px;">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Favourites</th>
+              </tr>
+            </thead>
+            <tbody style="background-color:#9BCEEE;padding:4px;color:black;" *ngFor="let data of favouritejson">
+              <tr>
+                <th scope="row">{{data.id}}</th>
+                <td><img class="img-responsive" src={{data.seal}} alt="Chania" style="width:20px;height:20px;"></td>
+                <td><a href="javascript:void(0)" id={{data|json}} (click)="displaydataofthatcity($event)">{{data.city}}</a></td>
+                <td>{{data.state}}</td>
+                <td><a href="#" (click)="deletefavourite(data)"><i class="material-icons">delete</i></a></td>
+              </tr>
+            </tbody>
+    </table>
+</div>
+
+<div *ngIf="favempty">
+    <div class="container">
+        <div class="row" style="width: 900px; margin-top: 40px; background-color: #FFF1C0; margin-left: 150px;color:burlywood" >
+           <span >No Records </span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showtabs">
+
+
+
+
+    <div class="container justify-content-center" style="margin-top:80px;">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:150px;">
+            <label class="btn btn-secondary active" style="background-color: white;border-color:grey;color:black;border-style:0.5px solid;">
+              <input type="radio" name="Currently" id="option1" autocomplete="off" (click)=buttoncreatecurrentlycard($event)>Currently
+            </label>
+            <label class="btn btn-secondary" style="background-color: white;border-color: darkslateblue;border-color:grey;color:black;border-style:0.5px solid;">
+              <input type="radio" name="Hourly" id="option2" autocomplete="off" (click)=displayHourlytab($event)> Hourly
+            </label>
+            <label class="btn btn-secondary" style="background-color: white;border-color: darkslateblue;border-color:grey;color:black;border-style:0.5px solid;">
+              <input type="radio" name="Weekly" id="option3" autocomplete="off" (click)=displayWeeklyChart()> Weekly
+            </label>
+    </div>
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:400px;background-color: white;border-color: darkslateblue;color:black;">
+            <label class="btn btn-secondary" style="float: right;background-color: white;border-color: darkslateblue;color:black;">
+                <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{default_tweet}}" data-size="large"><i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+              </label>
+              <label class="btn btn-secondary" style="background-color: white;border-color: darkslateblue;color:black;">
+                <div *ngIf="notinstorage"><input type="radio" name="Star" id="option5" autocomplete="off" (click)=addfavourites()><i class="material-icons">star_border</i></div>
+                <div *ngIf="instorage"><input type="radio" name="Star" id="option5" autocomplete="off" (click)=addfavourites()><i class="material-icons" style="color:yellow">star</i></div>
+                <!-- <i class="material-icons">star</i> -->
+              </label>
+    </div>
+
+        
+            <hr style="margin-top:6px;">
+    </div>
+
+
+
+
+        <div class="container justify-content-center" style="margin-top:30px;border-radius: 25px;" *ngIf="disp_currently">
+        <div>
+            <div class="row" style="margin-left:200px; width:2000px;height:410px; color:black;border-radius: 25px;">
+                <div class="col-md-4" style="background-color: #9BCDEE;border-style: none;border-radius:25px;">
+                    <div class="card text-white" style="background-color: #9BCDEE;border-style: none;">
+                            <h5 class="card-header" style="background-color: #9BCDEE;border-style: none;color: black;font-size: 30px;">
+                                {{items.statename}}<br/><span style="margin-top:10px;">{{items.timezone}}</span>
+                            </h5>
+                            <div class="card-body" style="background-color: #9BCDEE;border-style: none;">
+                                    <div class="row">
+                                            <div class="col-4">
+                                                <p class="card-text" style="color: black; font-size: 40px;">
+                                                    {{items.temperature}}<img class="img-responsive" src="https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_shape_oval-512.png" alt="Chania" style='width: 10px; height: 10px; vertical-align: 25px;'> F 
+                                                </p>
+                                                <p class="card-text" style="color: black; font-size:20px;">
+                                                    {{items.summary}}
+                                                </p>
+                                            </div>
+                                            <div class="col-4" style="color: black; margin-left: 150px; margin-top: -10px;">
+                                                    <img class="img-responsive" src={{items.stateseal}} alt="Chania" style="width:150px;height:150px;"> 
+                                            </div>
+                                    </div>
+                                </div>
+                                 </div>
+                            <div class="card-footer" style="background-color: #9BCDEE;border-style: none;" >
+                                    <table class="table table-borderless" style="background-color: #9BCDEE;border-style: none;">
+                                        <tr>
+                                            <td *ngIf="'humidity in items.humidity' &&  items.humidity>0"><img class="img-responsive" src={{items.humidityicon}} style="width:40px;height:40px;" ngbTooltip="Humidtiy" placement="top"></td>
+                                            <td *ngIf="'pressure in items.pressure' &&   items.pressure>0"><img class="img-responsive" src={{items.pressureicon}} style="width:40px;height:40px;" ngbTooltip="Pressure" placement="top"></td>
+                                            <td *ngIf="'windspeed in items.windSpeed' &&  items.windSpeed>0"><img class="img-responsive" src={{items.windspeedicon}} style="width:40px;height:40px;" ngbTooltip="Windspeed" placement="top"></td>
+                                            <td *ngIf="'visibility in items.visibility' &&  items.visibility>0"><img class="img-responsive" src={{items.visibilityicon}} style="width:40px;height:40px;" ngbTooltip="visibility" placement="top"></td>
+                                            <td *ngIf="'cloudcover in items.cloudcover' &&  items.cloudcover>0"><img class="img-responsive" src={{items.cloudcovericon}} style="width:40px;height:40px;" ngbTooltip="cloudcover" placement="top"></td>
+                                            <td *ngIf="'ozone in items.ozone' &&  items.ozone>0"><img class="img-responsive" src={{items.ozoneicon}} style="width:40px;height:40px;" ngbTooltip="ozone" placement="top"></td>
+                                        </tr>
+                                        <tr>
+                                            <td *ngIf="'humidity in items.humidity' &&  items.humidity">{{items.humidity}}</td>
+                                            <td *ngIf="'pressure in items.pressure' &&  items.pressure>0">{{items.pressure}}</td>
+                                            <td *ngIf="'windspeed in items.windspeed' &&  items.windSpeed>0">{{items.windspeed}}</td>
+                                            <td *ngIf="'visibility in items.visibility' &&  items.visibility>0">{{items.visibility}}</td>
+                                            <td *ngIf="'cloudcover in items.cloudcover' &&  items.cloudcover>0">{{items.cloudcover}}</td>
+                                            <td *ngIf="'ozone in items.ozone'">{{items.ozone}}</td>
+                                        </tr>
+                                    </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-4" style="background-color: #9BCDEE;">
+                </div>
+                <div class="col-md-4" style="background-color: #9BCDEE;">
+                </div>
+            </div>
+        </div>
+
+         <div *ngIf="disp_hourly"> 
+            <div class="container justify-content-center" style="margin-top:30px;" *ngIf="disp_hourly">
+                    <select class="custom-select" style="margin-left: 200px;width:250px;height:40px;" [(ngModel)]="chosenMod" (ngModelChange)="modo()">
+                            <option value="" selected style="font-size: 20px;">Temperature</option>
+                            <option value="pressure" style="font-size: 20px;">Pressure</option>
+                            <option value="humidity" style="font-size: 20px;">humidity</option>
+                            <option value="ozone" style="font-size: 20px;">Ozone</option>
+                            <option value="visibility" style="font-size: 20px;">visibility</option>
+                            <option value="windspeed" style="font-size: 20px;">Wind Speed</option>
+                    </select>         
+                          <!-- <canvas id="barchart">{{BarChart}}</canvas>     -->
+        </div>
+
+            <div class="container" style="margin-left: 480px;width:800px;">
+                <canvas id="barchart">{{BarChart}}</canvas>
+            </div>
+        </div> 
+
+        <!-- <div class="container" style="width:800px;"*ngIf="disp_weekly">
+            <div *ngIf="disp_weekly" style="width:800px;">
+                <div id="dispcontainer"style="width:800px;" ></div>
+            </div>
+        </div> -->
+
+        <div class="container" *ngIf="disp_weekly" style="width:800px;" >
+             <div id="dispcontainer"></div>
+        </div>
+
+
+        <ng-template #content let-modal>
+                <div class="modal-header" style="background-color: #6592AD;">
+                  <h4 class="modal-title" id="modal-basic-title">{{dailydatajson.time}}</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="background-color: #9BCEEE;">
+                    <div class="row"  style="background-color: #9BCEEE;">
+                    <div class="col"  style="background-color: #9BCEEE; margin-left: 20px;">
+                      <label for="City" style="font-size:22px;">{{dailydatajson.city}}</label><br>
+                      <label for="Temperature" style="font-size:28px;">{{dailydatajson.temp}}<img class="img-responsive" src="https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_shape_oval-512.png" alt="Chania" style='width: 4px; height: 4px; vertical-align: 10px;'> F </label><br>
+                      <label for="Summary">{{dailydatajson.summ}}</label><br>
+                    </div>
+                    <div class="col"  style="background-color: #9BCEEE;">
+                      <label for="Icon"><img src={{dailydatajson.icon}} style="width:100px; height: 100px;"></label>
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #9BCEEE;">
+                    <table style="float: right; margin-right: 50px;">
+                        
+                        <tr><td>Precipitation: {{dailydatajson.precip}}</td></tr>
+                        <tr><td>Chance of Rain: {{dailydatajson.chanceofrain}}</td></tr>
+                        <tr><td>Wind Speed: {{dailydatajson.windspeed}}</td></tr>
+                        <tr><td>Humidity: {{dailydatajson.humidity}}</td></tr>
+                        <tr><td>Visibility: {{dailydatajson.visibility}}</td></tr>
+                    </table>
+                </div>
+        </ng-template>
+
+        <button type="button" id="openmodalbutton" class="btn btn-lg btn-outline-primary" [hidden]="true" (click)="open(content)">Launch demo modal</button>
+
+
+    
+
+ </div>
+ 
+
+
+    
