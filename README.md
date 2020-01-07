@@ -37,3 +37,5 @@ check that the entered data is valid.
 
 
 [![Screen-Shot-2020-01-07-at-12-17-56-PM.png](https://i.postimg.cc/xCS4bhbm/Screen-Shot-2020-01-07-at-12-17-56-PM.png)](https://postimg.cc/1gJHkWBR)
+
+[![Screen-Shot-2020-01-07-at-12-17-37-PM.png](https://i.postimg.cc/WpQc2W5M/Screen-Shot-2020-01-07-at-12-17-37-PM.png)](https://postimg.cc/QVkymbGt)
