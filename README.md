@@ -1,7 +1,6 @@
 ## WEBSITE IMPLEMENTATION DESCRIPTION:
 
-* LINK:
-  http://prateekparhihw8usc.us-east-2.elasticbeanstalk.com/
+* [Weather Application Demo](https://youtu.be/SXLUypqXQr8)
 
 * Created a webpage that allows users to search for weather information using the Forecast.io API and displayed the results on   the same page below the form.
 
